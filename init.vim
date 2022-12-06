@@ -19,6 +19,7 @@ call plug#begin()
   Plug 'junegunn/gv.vim'
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-commentary'
+  Plug 'cappyzawa/trim.nvim'
 call plug#end()
 
 let mapleader=','
@@ -53,7 +54,7 @@ set updatetime=100
 nnoremap <C-E> :NERDTreeToggle<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>ff <cmd>Telescope find_files hidden=true<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
@@ -82,7 +83,6 @@ map <Leader>ta :TestSuite<CR>
 map <Leader>tl :TestLast<CR>
 
 nmap <C-S> :w!<CR>
-
 
 lua << EOF
 require'lspconfig'.solargraph.setup{}
@@ -209,3 +209,15 @@ vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 EOF
 
+lua <<EOF
+  require('trim').setup({
+    -- if you want to ignore markdown file.
+    -- you can specify filetypes.
+    disable = {"markdown"},
+
+    -- if you want to remove multiple blank lines
+    patterns = {
+      [[%s/\(\n\n\)\n\+/\1/]],   -- replace multiple blank lines with a single line
+    },
+  })
+EOF
